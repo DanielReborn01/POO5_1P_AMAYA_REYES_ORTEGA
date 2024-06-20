@@ -8,6 +8,10 @@ package proyectoprimerparcial;
  *
  * @author danie
  */
-public class Autor {
+public class Autor extends Usuario{
+    
+    public Autor(String nombre, String apellido, String correoElectronico) {
+        super(nombre, apellido, correoElectronico);
+    }
     
 }

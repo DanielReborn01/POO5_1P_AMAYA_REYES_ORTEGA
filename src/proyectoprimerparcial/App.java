@@ -4,11 +4,15 @@
  */
 package proyectoprimerparcial;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author danie
  */
 public class App {
+    static ArrayList<Usuario> listaUsuarios;
+    
     public static void main(String[] args) {
         // TODO code application logic here
     }

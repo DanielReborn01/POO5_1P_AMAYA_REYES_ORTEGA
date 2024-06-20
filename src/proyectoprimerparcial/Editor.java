@@ -8,6 +8,10 @@ package proyectoprimerparcial;
  *
  * @author danie
  */
-public class Editor {
+public class Editor extends Usuario{
+    
+    public Editor(String nombre, String apellido, String correoElectronico) {
+        super(nombre, apellido, correoElectronico);
+    }
     
 }
