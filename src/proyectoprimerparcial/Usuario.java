@@ -13,6 +13,12 @@ public abstract class Usuario {
     protected String apellido;
     protected String correoElectronico;
     
+    /***
+     * Constructor de Usuario
+     * @param nombre
+     * @param apellido
+     * @param correoElectronico 
+     */
     public Usuario(String nombre, String apellido, String correoElectronico){
         this.nombre = nombre;
         this.apellido = apellido;
@@ -60,5 +66,7 @@ public abstract class Usuario {
     public void setCorreo(String correoElectronico){
         this.correoElectronico = correoElectronico;
     }
+    
+    public abstract void revisarArticulo();
     
 }

@@ -8,14 +8,18 @@ package Enums;
  *
  * @author danie
  */
-public enum Estado {
+public enum Rol {
     /***
-     * Estado aceptado
+     * Perfil de usuario
      */
-    ACEPTADO, 
+    A, 
     /***
-     * Estado rechazado
+     * Perfil de editor
      */
-    RECHAZADO
+    E, 
+    /***
+     * Perfil de revisor
+     */
+    R
     
 }

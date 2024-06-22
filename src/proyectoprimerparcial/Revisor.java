@@ -14,6 +14,16 @@ public class Revisor extends Usuario{
     private String user;
     private String code;
     
+    /***
+     * Constructor de Revisor
+     * @param nombre
+     * @param apellido
+     * @param correoElectronico
+     * @param especialidad
+     * @param numArticulos
+     * @param user
+     * @param code 
+     */
     public Revisor(String nombre, String apellido, String correoElectronico, String especialidad, int numArticulos, String user, String code) {
         super(nombre, apellido, correoElectronico);
         this.especialidad = especialidad;
@@ -76,6 +86,10 @@ public class Revisor extends Usuario{
      */
     public void setCode(String code){
         this.code = code;
+    }
+
+    @Override
+    public void revisarArticulo() {
     }
     
 }
