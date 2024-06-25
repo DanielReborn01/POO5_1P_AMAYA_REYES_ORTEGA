@@ -6,12 +6,16 @@ package proyectoprimerparcial;
 
 import Enums.Estado;
 
+import java.util.Random;
+
+
 /**
  *
  * @author danie
  */
 public class Revision {
     private Estado estado;
+    
     
     /***
      * 
@@ -40,4 +44,6 @@ public class Revision {
     public void mostrarComentarios(){
         
     }
+    
+    
 }
