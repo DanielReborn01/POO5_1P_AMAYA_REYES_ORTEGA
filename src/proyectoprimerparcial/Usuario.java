@@ -22,10 +22,11 @@ public abstract class Usuario {
      * @param apellido
      * @param correoElectronico 
      */
-    public Usuario(String nombre, String apellido, String correoElectronico){
+    public Usuario(String nombre, String apellido, String correoElectronico, Rol rol){
         this.nombre = nombre;
         this.apellido = apellido;
         this.correoElectronico = correoElectronico;
+        this.rol = rol;
     }
     /***
      * 

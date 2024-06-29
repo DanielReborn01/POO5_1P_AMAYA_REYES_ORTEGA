@@ -5,6 +5,7 @@
 package proyectoprimerparcial;
 
 import Enums.Rol;
+import static Enums.Rol.R;
 
 /**
  *
@@ -27,13 +28,13 @@ public class Revisor extends Usuario{
      * @param code 
      * @param rol 
      */
+    
     public Revisor(String nombre, String apellido, String correoElectronico, String especialidad, int numArticulos, String user, String code, Rol rol) {
-        super(nombre, apellido, correoElectronico);
+        super(nombre, apellido, correoElectronico, rol);
         this.especialidad = especialidad;
         this.numArticulos = numArticulos;
         this.user = user;
         this.code = code;
-        this.rol = rol;
     }
     /***
      * 

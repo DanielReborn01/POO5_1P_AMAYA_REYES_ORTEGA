@@ -19,11 +19,14 @@ public class Articulo {
     private ArrayList<String> palabrasClave = new ArrayList<>();
     private String codigo;
     private Autor autor;
+    private Revisor revisor1;
+    private Revisor revisor2;
+    
     
     String[] digitos = {"a", "b", "c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9","0"};
     static Random rd = new Random();
     
-    public Articulo(String titulo, String resumen, String contenido, ArrayList<String> palabrasClave, Autor autor){
+    public Articulo(String titulo, String resumen, String contenido, ArrayList<String> palabrasClave, Autor autor, Revisor revisor1, Revisor revisor2){
         this.titulo = titulo;
         this.resumen = resumen;
         this.contenido = contenido;
@@ -35,6 +38,8 @@ public class Articulo {
         }
         this.codigo = cod;
         this.autor = autor;
+        this.revisor1 = revisor1;
+        this.revisor2 = revisor2;
     }
     
     /***
@@ -125,6 +130,10 @@ public class Articulo {
         return autor.nombre;
     }
     
+    /***
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
         return titulo + "," + resumen + "," + contenido + ","

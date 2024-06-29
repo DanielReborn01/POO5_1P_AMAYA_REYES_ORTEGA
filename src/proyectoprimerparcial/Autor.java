@@ -33,8 +33,8 @@ public class Autor extends Usuario{
      */
     String[] digitos = {"a", "b", "c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9","0"};
     static Random rd = new Random();
-    public Autor(String nombre, String apellido, String correoElectronico,String institucion,String campoInvestigacion) {
-        super(nombre, apellido, correoElectronico);
+    public Autor(String nombre, String apellido, String correoElectronico,String institucion,String campoInvestigacion, String codigo, Rol rol) {
+        super(nombre, apellido, correoElectronico, rol);
         this.institucion=institucion;
         this.campoInvestigacion=campoInvestigacion;
         String cod="";
@@ -42,8 +42,8 @@ public class Autor extends Usuario{
             int randomNumber = rd.nextInt(36);
             cod += digitos[randomNumber];
         }
-        this.codigo = cod;
-        this.rol = A;
+        this.codigo = codigo;
+        this.rol = rol;
     }    
 
     /***
@@ -93,21 +93,19 @@ public class Autor extends Usuario{
     public void setCampoInvestigacion(String campoInvestigacion){
         this.campoInvestigacion=campoInvestigacion;
     }
-    
-    
     /***
      * 
+     * @return 
      */
     @Override
-    public void revisarArticulo() {
+    public String toString() {
+        return nombre + "," + apellido + "," + correoElectronico + ","
+                + institucion + "," + campoInvestigacion+","+codigo+","+rol;
     }
-    
-    
-    /***
-     * Metodo utilizado para someter el articulo
-     */
-    public void someterArticulo(){
-        
+
+    @Override
+    public void revisarArticulo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
 
