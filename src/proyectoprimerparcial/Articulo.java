@@ -5,6 +5,7 @@
 package proyectoprimerparcial;
 
 import Enums.Estado;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -15,13 +16,14 @@ public class Articulo {
     private String titulo;
     private String resumen;
     private String contenido;
-    private String[] palabrasClave;
+    private ArrayList<String> palabrasClave = new ArrayList<>();
     private String codigo;
+    private Autor autor;
     
     String[] digitos = {"a", "b", "c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9","0"};
     static Random rd = new Random();
     
-    public Articulo(String titulo, String resumen, String contenido, String[] palabrasClave, Estado estado){
+    public Articulo(String titulo, String resumen, String contenido, ArrayList<String> palabrasClave, Autor autor){
         this.titulo = titulo;
         this.resumen = resumen;
         this.contenido = contenido;
@@ -32,12 +34,101 @@ public class Articulo {
             cod += digitos[randomNumber];
         }
         this.codigo = cod;
+        this.autor = autor;
+    }
+    
+    /***
+     * 
+     * @return 
+     */
+    public String getTitulo() {
+        return titulo;
+    }
+
+    /***
+     * 
+     * @param titulo 
+     */
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    /***
+     * 
+     * @return 
+     */
+    public String getResumen() {
+        return resumen;
+    }
+
+    /***
+     * 
+     * @param resumen 
+     */
+    public void setResumen(String resumen) {
+        this.resumen = resumen;
+    }
+
+    /***
+     * 
+     * @return 
+     */
+    public String getContenido() {
+        return contenido;
+    }
+
+    /***
+     * 
+     * @param contenido 
+     */
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
+    }
+
+    /***
+     * 
+     * @return 
+     */
+    public ArrayList<String> getPalabrasClave() {
+        return palabrasClave;
+    }
+
+    /***
+     * 
+     * @param palabrasClave 
+     */
+    public void setPalabrasClave(ArrayList<String> palabrasClave) {
+        this.palabrasClave = palabrasClave;
+    }
+
+    /***
+     * 
+     * @return 
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /***
+     * 
+     * @param codigo 
+     */
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    
+    /***
+     * 
+     * @return 
+     */
+    public String getAutorNombre(){
+        return autor.nombre;
     }
     
     @Override
     public String toString() {
         return titulo + "," + resumen + "," + contenido + ","
-                + palabrasClave + "," + codigo;
+                + palabrasClave + "," + codigo+","+autor.nombre;
     }
     
     

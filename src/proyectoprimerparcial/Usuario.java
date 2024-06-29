@@ -4,6 +4,8 @@
  */
 package proyectoprimerparcial;
 
+import Enums.Rol;
+
 /**
  *
  * @author danie
@@ -12,6 +14,7 @@ public abstract class Usuario {
     protected String nombre;
     protected String apellido;
     protected String correoElectronico;
+    protected Rol rol;
     
     /***
      * Constructor de Usuario

@@ -4,7 +4,11 @@
  */
 package proyectoprimerparcial;
 
+import Enums.Rol;
+import static Enums.Rol.A;
 import java.util.ArrayList;
+import java.util.Random;
+import static proyectoprimerparcial.Articulo.rd;
 
 /**
  *
@@ -16,6 +20,7 @@ public class Autor extends Usuario{
     private String codigo;
     private String institucion;
     private String campoInvestigacion;
+    private Rol rol;
     
     /***
      * Constructor de Autor
@@ -26,11 +31,19 @@ public class Autor extends Usuario{
      * @param institucion
      * @param campoInvestigacion 
      */
-    public Autor(String nombre, String apellido, String correoElectronico, String codigo,String institucion,String campoInvestigacion) {
+    String[] digitos = {"a", "b", "c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9","0"};
+    static Random rd = new Random();
+    public Autor(String nombre, String apellido, String correoElectronico,String institucion,String campoInvestigacion) {
         super(nombre, apellido, correoElectronico);
-        this.codigo=codigo;
         this.institucion=institucion;
         this.campoInvestigacion=campoInvestigacion;
+        String cod="";
+        for(int i =0;i<4;i++){
+            int randomNumber = rd.nextInt(36);
+            cod += digitos[randomNumber];
+        }
+        this.codigo = cod;
+        this.rol = A;
     }    
 
     /***
@@ -81,6 +94,7 @@ public class Autor extends Usuario{
         this.campoInvestigacion=campoInvestigacion;
     }
     
+    
     /***
      * 
      */
@@ -88,12 +102,6 @@ public class Autor extends Usuario{
     public void revisarArticulo() {
     }
     
-    /***
-     * Metodo utilizado para registar los datos del autor
-     */
-    public void registrarDatos(){
-        
-    }
     
     /***
      * Metodo utilizado para someter el articulo
