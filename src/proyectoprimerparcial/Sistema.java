@@ -119,19 +119,21 @@ public class Sistema {
             }
         }
     }
-    
-    /***
-     * 
+
+    /**
+     * *
+     *
      */
-    public static void cargarArticulos(){
+    public static void cargarArticulos() {
         ArrayList<String[]> datosArticulos = LeerValidando("articulos.txt", false);
         for (String[] dato : datosArticulos) {
             listaArticulos.add(new Articulo(dato[0], dato[1], dato[2], dato[3], dato[4], dato[5]));
         }
     }
 
-    /***
-     * 
+    /**
+     * *
+     *
      */
     public static void iniciarSesion() {
         Scanner sc = new Scanner(System.in);
@@ -142,22 +144,39 @@ public class Sistema {
         String user = sc.nextLine();
         System.out.print("CONTRASENIA: ");
         String password = sc.nextLine();
-        for(Usuario usuario:listaUsuarios){
-            if(usuario instanceof Revisor){
-              if(((Revisor) usuario).getUser().equals(user) && ((Revisor)usuario).getCode().equals(password)){
-                  System.out.println("Ingreso exitoso");
-                  sc.nextLine();
-                  System.out.println("Ingrese el codigo del articulo que desee aprobar");
-                  String art = sc.nextLine();
-                  for(Articulo arti:listaArticulos){
-                      if(art.endsWith(arti.getCodigo())){
-                          System.out.println(arti);
-                      }
-                  }
-              }
-            }
-            else if(usuario instanceof Editor){
-                
+        for (Usuario usuario : listaUsuarios) {
+            if (usuario instanceof Revisor) {
+                if (((Revisor) usuario).getUser().equals(user) && ((Revisor) usuario).getCode().equals(password)) {
+                    System.out.println("Ingreso exitoso");
+                    System.out.println("Revisor: Revision del articulo");
+                    sc.nextLine();
+                    System.out.println("Ingrese el codigo del articulo que desee aprobar");
+                    String art = sc.nextLine();
+                    for (Articulo arti : listaArticulos) {
+                        if (art.endsWith(arti.getCodigo())) {
+                            System.out.println(arti);
+                        }
+                    }
+                }else{
+                    System.out.println("Datos ingresados incorrectos, pruebe de nuevo");
+                    iniciarSesion();
+                }
+            } else if (usuario instanceof Editor) {
+                if (((Editor) usuario).getUser().equals(user) && ((Editor) usuario).getCode().equals(password)) {
+                    System.out.println("Ingreso exitoso");
+                    sc.nextLine();
+                    System.out.println("Editor: Registro de decision final sobre articulo");
+                    System.out.println("Ingrese el codigo del articulo que desee aprobar");
+                    String art = sc.nextLine(); 
+                    for (Articulo arti : listaArticulos) {
+                        if (art.endsWith(arti.getCodigo())) {
+                            System.out.println(arti);
+                        }
+                    }
+                }else{
+                    System.out.println("Datos ingresados incorrectos, pruebe de nuevo");
+                    iniciarSesion();
+                }
             }
         }
     }
@@ -169,12 +188,14 @@ public class Sistema {
      */
     public static void createRevision(Revision revision) {
         // Código para registrar la revisión en un archivo y guardar la información.
+        Revision rev = new Revision(null,null,null,null,null,null,null,null);
         listaRevisiones.add(revision);
         ManejoArchivos.EscribirArchivo("revisiones.txt", revision.toString());
     }
 
-    /***
-     * 
+    /**
+     * *
+     *
      */
     public static void someterArticulo() {
         Scanner sc = new Scanner(System.in);
@@ -206,7 +227,7 @@ public class Sistema {
         for (int i = 0; i < num; i++) {
             System.out.println("Ingrese una palabra clave");
             String palabraClave = sc.nextLine();
-            palabras+=palabraClave+" ";
+            palabras += palabraClave + " ";
         }
         //Se asignan los revisores al articulo
         Revisor rev1 = asignarRevisor();
