@@ -8,7 +8,6 @@ import Enums.Rol;
 import static Enums.Rol.A;
 import java.util.ArrayList;
 import java.util.Random;
-import static proyectoprimerparcial.Articulo.rd;
 
 /**
  *
@@ -37,11 +36,6 @@ public class Autor extends Usuario{
         super(nombre, apellido, correoElectronico, rol);
         this.institucion=institucion;
         this.campoInvestigacion=campoInvestigacion;
-        String cod="";
-        for(int i =0;i<4;i++){
-            int randomNumber = rd.nextInt(36);
-            cod += digitos[randomNumber];
-        }
         this.codigo = codigo;
         this.rol = rol;
     }    

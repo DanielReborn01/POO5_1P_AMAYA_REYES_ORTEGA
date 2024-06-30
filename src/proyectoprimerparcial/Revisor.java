@@ -29,11 +29,11 @@ public class Revisor extends Usuario{
      * @param rol 
      */
     
-    public Revisor(String nombre, String apellido, String correoElectronico, String especialidad, int numArticulos, String user, String code, Rol rol) {
+    public Revisor(String nombre, String apellido, String correoElectronico, String especialidad, int numArticulos, String code, Rol rol) {
         super(nombre, apellido, correoElectronico, rol);
         this.especialidad = especialidad;
         this.numArticulos = numArticulos;
-        this.user = user;
+        this.user = correoElectronico.split("@")[0];
         this.code = code;
     }
     /***

@@ -54,6 +54,10 @@ public class ManejoArchivos {
                 e2.printStackTrace();
             }
         }
+        ArrayList<String[]> datos=new ArrayList<>();
+        for(int i=0;i<lineas.size();i++){
+            datos.add(lineas.get(i).split(","));
+            }
         return lineas;
 
     }
@@ -111,52 +115,4 @@ public class ManejoArchivos {
         
         return datos;
     } 
-    /**
-     * Este método elimina una línea en específico y las restantes las agrega en un archivo temporal y las rees cribe en otro que reemplaza al original
-     * @param ruta es el archivo del cual se eliminará la línea
-     * @param linea es la línea a eliminar 
-     */
-    public static void EliminarLinea(String ruta, int linea){
-        System.out.println("Entro");
-        // Ruta del archivo
-        String rutaArchivo = ruta;
-        // Número de línea a borrar
-        int numeroLineaABorrar = linea;
-
-        try {
-            // Crear un archivo temporal
-            File archivoTemporal = new File("archivoTemporal.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(archivoTemporal));
-
-            // Leer el archivo original y omitir la línea a borrar
-            BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo));
-            String lineaActual;
-            int numeroLinea = 1;
-
-            while ((lineaActual = reader.readLine()) != null) {
-                // Si no es la línea que se desea borrar
-                if (numeroLinea != numeroLineaABorrar) {
-             
-                    // Escribir la línea sin espacios en el archivo temporal
-                    writer.write(lineaActual);
-                    writer.newLine();
-                }
-
-                numeroLinea++;
-            }
-
-            // Cerrar los recursos
-            reader.close();
-            writer.close();
-
-            // Eliminar el archivo original
-            File archivoOriginal = new File(rutaArchivo);
-            archivoOriginal.delete();
-
-            // Renombrar el archivo temporal con el nombre del archivo original
-            archivoTemporal.renameTo(archivoOriginal);
-        } catch (IOException e) {
-            System.out.println("Error al procesar el archivo: " + e.getMessage());
-        }
-    }
 }

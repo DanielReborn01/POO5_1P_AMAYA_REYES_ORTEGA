@@ -9,9 +9,9 @@ import static Enums.Rol.A;
 import ManejoArchivos.ManejoArchivos;
 import static ManejoArchivos.ManejoArchivos.LeerValidando;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
-import static proyectoprimerparcial.Autor.rd;
 
 /**
  *
@@ -20,7 +20,6 @@ import static proyectoprimerparcial.Autor.rd;
 public class Sistema {
 
     static ArrayList<Usuario> listaAutores = new ArrayList<>();
-    static ArrayList<Editor> listaEditores = new ArrayList<>();
     static ArrayList<Revisor> listaRevisores = new ArrayList<>();
     static ArrayList<Articulo> listaArticulos = new ArrayList<>();
     static ArrayList<Revision> listaRevisiones = new ArrayList<>();
@@ -45,7 +44,8 @@ public class Sistema {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        cargarRevisores();
+        cargarArticulos();
+        cargarUsuarios();
         mostrarMenu();
     }
 
@@ -74,24 +74,21 @@ public class Sistema {
      */
     public static void mostrarMenu() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("1. Someter articulo\n2. Iniciar sesion");
+        System.out.println("1. Someter articulo\n2. Iniciar sesion\n3. Salir");
         String eleccion = sc.nextLine();
         switch (eleccion) {
             case "1" -> {
                 someterArticulo();
+                mostrarMenu();
             }
             case "2" -> {
                 iniciarSesion();
+                mostrarMenu();
+            }
+            case "3" -> {
+                break;
             }
         }
-
-    }
-
-    /**
-     * *
-     *
-     */
-    public static void guardarDatosAutor() {
 
     }
 
@@ -106,42 +103,61 @@ public class Sistema {
         }
     }
 
-    /**
-     * *
-     * Metodo utilizado para rellenar el ArrayList listaRevisores
-     */
-    public static void cargarRevisores() {
-        ArrayList<String[]> datosRevisores = LeerValidando("revisores.txt", false);
-        for (String[] dato : datosRevisores) {
-            listaRevisores.add(new Revisor(dato[0], dato[1], dato[2], dato[3], Integer.parseInt(dato[4]), dato[5], dato[6], Rol.valueOf(dato[7])));
-            listaUsuarios.add(new Revisor(dato[0], dato[1], dato[2], dato[3], Integer.parseInt(dato[4]), dato[5], dato[6], Rol.valueOf(dato[7])));
-        }
-    }
-
-    /**
-     * *
-     * Metodo utilizado para rellenar el ArrayList listaEditores
-     */
-    public static void cargarEditores() {
-        ArrayList<String[]> datosEditores = LeerValidando("editores.txt", false);
-        for (String[] dato : datosEditores) {
-            listaEditores.add(new Editor(dato[0], dato[1], dato[2], dato[3], dato[4], dato[5], Rol.valueOf(dato[6])));
-            listaUsuarios.add(new Editor(dato[0], dato[1], dato[2], dato[3], dato[4], dato[5], Rol.valueOf(dato[6])));
-        }
-    }
-
-    public static void iniciarSesion() {
+    public static void cargarUsuarios() {
         ArrayList<String[]> datosUsuarios = LeerValidando("usuarios.txt", false);
         for (String[] dato : datosUsuarios) {
-            switch (dato[-1]) {
+            switch (dato[6]) {
                 case "R" -> {
-                    System.out.println("Revisor: Revision de articulo");
-                    break;
+                    listaRevisores.add(new Revisor(dato[0], dato[1], dato[2], dato[3], Integer.parseInt(dato[4]), dato[5], Rol.valueOf(dato[6])));
+                    listaUsuarios.add(new Revisor(dato[0], dato[1], dato[2], dato[3], Integer.parseInt(dato[4]), dato[5], Rol.valueOf(dato[6])));
+
                 }
                 case "E" -> {
-                    System.out.println("Editor: Registro de decision final sobre el articulo");
-                    break;
+                    listaUsuarios.add(new Editor(dato[0], dato[1], dato[2], dato[3], dato[4], dato[5], Rol.valueOf(dato[6])));
+
                 }
+            }
+        }
+    }
+    
+    /***
+     * 
+     */
+    public static void cargarArticulos(){
+        ArrayList<String[]> datosArticulos = LeerValidando("articulos.txt", false);
+        for (String[] dato : datosArticulos) {
+            listaArticulos.add(new Articulo(dato[0], dato[1], dato[2], dato[3], dato[4], dato[5]));
+        }
+    }
+
+    /***
+     * 
+     */
+    public static void iniciarSesion() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("BIENVENIDO AL SISTEMA");
+        System.out.println("++++++++++++++++++++++++++++++++++++++++");
+        System.out.print("USUARIO: ");
+        String user = sc.nextLine();
+        System.out.print("CONTRASENIA: ");
+        String password = sc.nextLine();
+        for(Usuario usuario:listaUsuarios){
+            if(usuario instanceof Revisor){
+              if(((Revisor) usuario).getUser().equals(user) && ((Revisor)usuario).getCode().equals(password)){
+                  System.out.println("Ingreso exitoso");
+                  sc.nextLine();
+                  System.out.println("Ingrese el codigo del articulo que desee aprobar");
+                  String art = sc.nextLine();
+                  for(Articulo arti:listaArticulos){
+                      if(art.endsWith(arti.getCodigo())){
+                          System.out.println(arti);
+                      }
+                  }
+              }
+            }
+            else if(usuario instanceof Editor){
+                
             }
         }
     }
@@ -157,9 +173,12 @@ public class Sistema {
         ManejoArchivos.EscribirArchivo("revisiones.txt", revision.toString());
     }
 
+    /***
+     * 
+     */
     public static void someterArticulo() {
         Scanner sc = new Scanner(System.in);
-        ArrayList<String> palabras = new ArrayList<>();
+        String palabras = "";
         System.out.println("Ingrese su nombre");
         String nombre = sc.nextLine();
         System.out.println("Ingrese su Apellido");
@@ -187,21 +206,28 @@ public class Sistema {
         for (int i = 0; i < num; i++) {
             System.out.println("Ingrese una palabra clave");
             String palabraClave = sc.nextLine();
-            palabras.add(palabraClave);
+            palabras+=palabraClave+" ";
         }
         //Se asignan los revisores al articulo
-        
-        Articulo articulo = new Articulo(titulo, resumen, contenido, palabras, autor, asignarRevisor(), asignarRevisor());
+        Revisor rev1 = asignarRevisor();
+        Revisor rev2 = asignarRevisor();
+        while (rev2.equals(rev1)) {
+            rev2 = asignarRevisor();
+        }
+        Articulo articulo = new Articulo(titulo, resumen, contenido, palabras, autor.getCodigo(), crearCodigo());
+        articulo.setRevisor1(rev1);
+        articulo.setRevisor2(rev2);
         listaArticulos.add(articulo);
         ManejoArchivos.EscribirArchivo("articulos.txt", articulo.toString());
         sc.nextLine();
-        System.out.println("Desea someter su articulo a revision?");
-        String respuesta = sc.nextLine();
+        System.out.println(articulo.getRev1().correoElectronico + "\nSe le escribe con el objetivo de indicarle que se le asigno revisar el articulo con el codigo: " + articulo.getCodigo());
+        System.out.println(articulo.getRev2().correoElectronico + "\nSe le escribe con el objetivo de indicarle que se le asigno revisar el articulo con el codigo: " + articulo.getCodigo());
     }
 
-    /***
-     * 
-     * @return 
+    /**
+     * *
+     *
+     * @return
      */
     public static Revisor asignarRevisor() {
         int randomNumber = rd.nextInt(listaRevisores.size() + 1);
