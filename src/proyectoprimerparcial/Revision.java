@@ -6,8 +6,6 @@ package proyectoprimerparcial;
 
 import Enums.Estado;
 
-import java.util.Random;
-
 /**
  *
  * @author danie
@@ -25,6 +23,7 @@ public class Revision {
 
     Revision(String codigo, String titulo, String comentario1, String comentario2, String comentario3, Estado estado1, Estado estado2, Estado estado3) {
         this.codigo = codigo;
+        this.titulo = titulo;
         this.comentario1 = comentario1;
         this.comentario2 = comentario2;
         this.comentario3 = comentario3;

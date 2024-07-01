@@ -4,12 +4,13 @@
  */
 package proyectoprimerparcial;
 
+import static Enums.Estado.ACEPTADO;
+import static Enums.Estado.RECHAZADO;
 import Enums.Rol;
 import static Enums.Rol.A;
 import ManejoArchivos.ManejoArchivos;
 import static ManejoArchivos.ManejoArchivos.LeerValidando;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -137,6 +138,7 @@ public class Sistema {
      */
     public static void iniciarSesion() {
         Scanner sc = new Scanner(System.in);
+        Revision rev = new Revision(null,null,null,null,null,null,null,null);
         System.out.println("++++++++++++++++++++++++++++++++++++++++");
         System.out.println("BIENVENIDO AL SISTEMA");
         System.out.println("++++++++++++++++++++++++++++++++++++++++");
@@ -156,8 +158,48 @@ public class Sistema {
                         if (art.endsWith(arti.getCodigo())) {
                             System.out.println(arti);
                         }
+                        rev.setCodigo(art);
+                        rev.setTitulo(arti.getTitulo());
+                        System.out.println("Escriba un comentario");
+                        String comentario = sc.nextLine();
+
+                        if(rev.getComentario1() == null){
+
+                            rev.setComentario1(comentario);
+
+                        }else if(rev.getComentario1()!=null && rev.getComentario2()==null){
+                            rev.setComentario2(comentario);
+                            
+                        }
+                        System.out.println("Aprueba este articulo? S/N");
+                        String respuesta = sc.nextLine();
+                        switch(respuesta){
+                            case "S"->{
+                                if(rev.getEstado1() == null){
+
+                                    rev.setEstado1(ACEPTADO);
+        
+                                }else if(rev.getEstado1()!=null && rev.getEstado2()==null){
+                                    rev.setEstado2(ACEPTADO);
+                                    
+                                }
+                            }
+                            case "N" ->{
+                                if(rev.getEstado1() == null){
+
+                                    rev.setEstado1(RECHAZADO);
+        
+                                }else if(rev.getEstado1()!=null && rev.getEstado2()==null){
+                                    rev.setEstado2(RECHAZADO);
+                                    
+                                }
+                            }
+                        }
+               
                     }
-                }else{
+                    iniciarSesion();
+                    
+                }else if(!((Revisor) usuario).getUser().equals(user)){
                     System.out.println("Datos ingresados incorrectos, pruebe de nuevo");
                     iniciarSesion();
                 }
@@ -173,12 +215,42 @@ public class Sistema {
                             System.out.println(arti);
                         }
                     }
-                }else{
+                    System.out.println("Escriba un comentario");
+                    String comentarioEditor = sc.nextLine();
+
+                    if(rev.getComentario3() == null){
+
+                        rev.setComentario3(comentarioEditor);
+
+                    }
+                    System.out.println("Aprueba este articulo? S/N");
+                    String respuesta = sc.nextLine();
+                    switch(respuesta){
+                        case "S"->{
+                            if(rev.getEstado3() == null){
+
+                                rev.setEstado3(ACEPTADO);
+        
+                            }
+                        }
+                        case "N" ->{
+                            if(rev.getEstado3() == null){
+
+                                rev.setEstado3(RECHAZADO);
+        
+                            }
+                        }
+                    }
+
+
+                }else if(!((Revisor) usuario).getUser().equals(user)){
                     System.out.println("Datos ingresados incorrectos, pruebe de nuevo");
                     iniciarSesion();
                 }
             }
         }
+        listaRevisiones.add(rev);
+        ManejoArchivos.EscribirArchivo("revisiones.txt", rev.toString());
     }
 
     /**
