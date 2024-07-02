@@ -11,6 +11,8 @@ import Enums.Rol;
  * @author danie
  */
 public abstract class Usuario {
+    protected String user;
+    protected String code;
     protected String nombre;
     protected String apellido;
     protected String correoElectronico;
@@ -22,7 +24,7 @@ public abstract class Usuario {
      * @param apellido
      * @param correoElectronico 
      */
-    public Usuario(String nombre, String apellido, String correoElectronico, Rol rol){
+    public Usuario(String nombre, String apellido, String correoElectronico, String usuario, String code, Rol rol){
         this.nombre = nombre;
         this.apellido = apellido;
         this.correoElectronico = correoElectronico;
@@ -72,5 +74,13 @@ public abstract class Usuario {
     }
     
     public abstract void revisarArticulo();
+
+    public String getUser() {
+       return user;
+    }
+
+    Object getCode() {
+        return code;
+    }
     
 }

@@ -47,6 +47,7 @@ public class Sistema {
         // TODO code application logic here
         cargarArticulos();
         cargarUsuarios();
+//        System.out.println(listaUsuarios.get(5));
         mostrarMenu();
     }
 
@@ -100,7 +101,7 @@ public class Sistema {
     public static void cargarAutores() {
         ArrayList<String[]> datosAutores = LeerValidando("autores.txt", false);
         for (String[] dato : datosAutores) {
-            listaAutores.add(new Autor(dato[0], dato[1], dato[2], dato[3], dato[4], dato[5], Rol.valueOf(dato[6])));
+            listaAutores.add(new Autor(dato[0], dato[1], dato[2], dato[3], dato[4], dato[5], dato[6], Rol.valueOf(dato[6])));
         }
     }
 
@@ -109,8 +110,7 @@ public class Sistema {
         for (String[] dato : datosUsuarios) {
             switch (dato[6]) {
                 case "R" -> {
-                    listaRevisores.add(new Revisor(dato[0], dato[1], dato[2], dato[3], Integer.parseInt(dato[4]), dato[5], Rol.valueOf(dato[6])));
-                    listaUsuarios.add(new Revisor(dato[0], dato[1], dato[2], dato[3], Integer.parseInt(dato[4]), dato[5], Rol.valueOf(dato[6])));
+                    listaUsuarios.add(new Revisor(dato[0], dato[1], dato[2], dato[3], dato[4], dato[5], Rol.valueOf(dato[6])));
 
                 }
                 case "E" -> {
@@ -132,13 +132,20 @@ public class Sistema {
         }
     }
 
+    public static void imprimir() {
+        for (Usuario usuario : listaUsuarios) {
+            System.out.println(usuario);
+        }
+    }
+
     /**
      * *
      *
      */
     public static void iniciarSesion() {
         Scanner sc = new Scanner(System.in);
-        Revision rev = new Revision(null,null,null,null,null,null,null,null);
+        imprimir();
+        Revision rev = new Revision(null, null, null, null, null, null, null, null);
         System.out.println("++++++++++++++++++++++++++++++++++++++++");
         System.out.println("BIENVENIDO AL SISTEMA");
         System.out.println("++++++++++++++++++++++++++++++++++++++++");
@@ -147,8 +154,9 @@ public class Sistema {
         System.out.print("CONTRASENIA: ");
         String password = sc.nextLine();
         for (Usuario usuario : listaUsuarios) {
-            if (usuario instanceof Revisor) {
-                if (((Revisor) usuario).getUser().equals(user) && ((Revisor) usuario).getCode().equals(password)) {
+            if (usuario.getUser().equals(user) && usuario.getCode().equals(password)) {
+
+                if (usuario instanceof Revisor revisor) {
                     System.out.println("Ingreso exitoso");
                     System.out.println("Revisor: Revision del articulo");
                     sc.nextLine();
@@ -162,54 +170,45 @@ public class Sistema {
                         rev.setTitulo(arti.getTitulo());
                         System.out.println("Escriba un comentario");
                         String comentario = sc.nextLine();
-
-                        if(rev.getComentario1() == null){
-
+                        if (rev.getComentario1() == null) {
                             rev.setComentario1(comentario);
-
-                        }else if(rev.getComentario1()!=null && rev.getComentario2()==null){
+                        } else if (rev.getComentario1() != null && rev.getComentario2() == null) {
                             rev.setComentario2(comentario);
-                            
                         }
                         System.out.println("Aprueba este articulo? S/N");
                         String respuesta = sc.nextLine();
-                        switch(respuesta){
-                            case "S"->{
-                                if(rev.getEstado1() == null){
-
+                        switch (respuesta) {
+                            case "S" -> {
+                                if (rev.getEstado1() == null) {
                                     rev.setEstado1(ACEPTADO);
-        
-                                }else if(rev.getEstado1()!=null && rev.getEstado2()==null){
+                                } else if (rev.getEstado1() != null && rev.getEstado2() == null) {
                                     rev.setEstado2(ACEPTADO);
-                                    
                                 }
                             }
-                            case "N" ->{
-                                if(rev.getEstado1() == null){
-
+                            case "N" -> {
+                                if (rev.getEstado1() == null) {
                                     rev.setEstado1(RECHAZADO);
-        
-                                }else if(rev.getEstado1()!=null && rev.getEstado2()==null){
+                                } else if (rev.getEstado1() != null && rev.getEstado2() == null) {
                                     rev.setEstado2(RECHAZADO);
-                                    
+
                                 }
                             }
                         }
-               
                     }
                     iniciarSesion();
-                    
-                }else if(!((Revisor) usuario).getUser().equals(user)){
-                    System.out.println("Datos ingresados incorrectos, pruebe de nuevo");
-                    iniciarSesion();
+
+//                if (!revisor.getUser().equals(user)) {
+//                    System.out.println("Datos ingresados incorrectos, pruebe de nuevo");
+////                    iniciarSesion();
+//           
                 }
-            } else if (usuario instanceof Editor) {
-                if (((Editor) usuario).getUser().equals(user) && ((Editor) usuario).getCode().equals(password)) {
+                if (usuario instanceof Editor editor) {
+                    sc.nextLine();
                     System.out.println("Ingreso exitoso");
                     sc.nextLine();
                     System.out.println("Editor: Registro de decision final sobre articulo");
                     System.out.println("Ingrese el codigo del articulo que desee aprobar");
-                    String art = sc.nextLine(); 
+                    String art = sc.nextLine();
                     for (Articulo arti : listaArticulos) {
                         if (art.endsWith(arti.getCodigo())) {
                             System.out.println(arti);
@@ -218,37 +217,34 @@ public class Sistema {
                     System.out.println("Escriba un comentario");
                     String comentarioEditor = sc.nextLine();
 
-                    if(rev.getComentario3() == null){
+                    if (rev.getComentario3() == null) {
 
                         rev.setComentario3(comentarioEditor);
 
                     }
                     System.out.println("Aprueba este articulo? S/N");
                     String respuesta = sc.nextLine();
-                    switch(respuesta){
-                        case "S"->{
-                            if(rev.getEstado3() == null){
+                    switch (respuesta) {
+                        case "S" -> {
+                            if (rev.getEstado3() == null) {
 
                                 rev.setEstado3(ACEPTADO);
-        
+
                             }
                         }
-                        case "N" ->{
-                            if(rev.getEstado3() == null){
+                        case "N" -> {
+                            if (rev.getEstado3() == null) {
 
                                 rev.setEstado3(RECHAZADO);
-        
+
                             }
                         }
                     }
 
-
-                }else if(!((Revisor) usuario).getUser().equals(user)){
-                    System.out.println("Datos ingresados incorrectos, pruebe de nuevo");
-                    iniciarSesion();
                 }
             }
         }
+
         listaRevisiones.add(rev);
         ManejoArchivos.EscribirArchivo("revisiones.txt", rev.toString());
     }
@@ -260,7 +256,7 @@ public class Sistema {
      */
     public static void createRevision(Revision revision) {
         // Código para registrar la revisión en un archivo y guardar la información.
-        Revision rev = new Revision(null,null,null,null,null,null,null,null);
+        Revision rev = new Revision(null, null, null, null, null, null, null, null);
         listaRevisiones.add(revision);
         ManejoArchivos.EscribirArchivo("revisiones.txt", revision.toString());
     }
@@ -282,7 +278,7 @@ public class Sistema {
         String instit = sc.nextLine();
         System.out.println("Ingrese su campo de investigacion");
         String campInv = sc.nextLine();
-        Autor autor = new Autor(nombre, apellido, correo, instit, campInv, crearCodigo(), A);
+        Autor autor = new Autor(nombre, apellido, correo, instit, campInv, crearCodigo(), crearCodigo(), A);
         listaAutores.add(autor);
         ManejoArchivos.EscribirArchivo("autores.txt", autor.toString());
         sc.nextLine();
@@ -307,7 +303,7 @@ public class Sistema {
         while (rev2.equals(rev1)) {
             rev2 = asignarRevisor();
         }
-        Articulo articulo = new Articulo(titulo, resumen, contenido, palabras, autor.getCodigo(), crearCodigo());
+        Articulo articulo = new Articulo(titulo, resumen, contenido, palabras, crearCodigo(), crearCodigo());
         articulo.setRevisor1(rev1);
         articulo.setRevisor2(rev2);
         listaArticulos.add(articulo);

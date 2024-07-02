@@ -14,8 +14,6 @@ import static Enums.Rol.R;
 public class Revisor extends Usuario{
     private String especialidad;
     private int numArticulos;
-    private String user;
-    private String code;
     
     /***
      * Constructor de Revisor
@@ -23,16 +21,14 @@ public class Revisor extends Usuario{
      * @param apellido
      * @param correoElectronico
      * @param especialidad
-     * @param numArticulos
      * @param user
      * @param code 
      * @param rol 
      */
     
-    public Revisor(String nombre, String apellido, String correoElectronico, String especialidad, int numArticulos, String code, Rol rol) {
-        super(nombre, apellido, correoElectronico, rol);
+    public Revisor(String nombre, String apellido, String correoElectronico, String especialidad, String user, String code, Rol rol) {
+        super(nombre, apellido, correoElectronico, user, code, rol);
         this.especialidad = especialidad;
-        this.numArticulos = numArticulos;
         this.user = correoElectronico.split("@")[0];
         this.code = code;
     }
@@ -54,13 +50,16 @@ public class Revisor extends Usuario{
      * 
      * @return 
      */
+    @Override
     public String getUser(){
         return user;
     }
+    
     /***
      * 
      * @return 
      */
+    @Override
     public String getCode(){
         return code;
     }
@@ -95,6 +94,11 @@ public class Revisor extends Usuario{
 
     @Override
     public void revisarArticulo() {
+    }
+    @Override
+    public String toString() {
+        return nombre + "," + apellido + "," + correoElectronico + ","
+                +numArticulos + "," + user+","+code+","+rol;
     }
     
 }

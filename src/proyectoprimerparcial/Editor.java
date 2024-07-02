@@ -28,10 +28,10 @@ public class Editor extends Usuario{
      * @param rol 
      */
     public Editor(String nombre, String apellido, String correoElectronico, String journalName, String user, String code, Rol rol) {
-        super(nombre, apellido, correoElectronico, rol);
-        this.journalName = journalName;
-        this.user = user;
+        super(nombre, apellido, correoElectronico,user, code,rol);
         this.code = code;
+        this.user = correoElectronico.split("@")[0];
+        this.journalName = journalName;
     }
 
     /***
@@ -46,6 +46,7 @@ public class Editor extends Usuario{
      * 
      * @return 
      */
+    @Override
     public String getUser(){
         return user;
     }
@@ -54,6 +55,7 @@ public class Editor extends Usuario{
      * 
      * @return 
      */
+    @Override
     public String getCode(){
         return code;
     }
@@ -87,6 +89,11 @@ public class Editor extends Usuario{
      */
     @Override
     public void revisarArticulo() {
+    }
+    @Override
+    public String toString() {
+        return nombre + "," + apellido + "," + correoElectronico + ","
+                + journalName + "," + user+","+code+","+rol;
     }
     
 }

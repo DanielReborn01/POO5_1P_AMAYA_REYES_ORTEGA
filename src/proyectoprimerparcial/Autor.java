@@ -32,11 +32,10 @@ public class Autor extends Usuario{
      */
     String[] digitos = {"a", "b", "c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9","0"};
     static Random rd = new Random();
-    public Autor(String nombre, String apellido, String correoElectronico,String institucion,String campoInvestigacion, String codigo, Rol rol) {
-        super(nombre, apellido, correoElectronico, rol);
+    public Autor(String nombre, String apellido, String correoElectronico,String institucion,String campoInvestigacion, String user, String codigo, Rol rol) {
+        super(nombre, apellido, correoElectronico, user, codigo, rol);
         this.institucion=institucion;
         this.campoInvestigacion=campoInvestigacion;
-        this.codigo = codigo;
         this.rol = rol;
     }    
 
@@ -44,8 +43,13 @@ public class Autor extends Usuario{
      * 
      * @return 
      */
-    public String getCodigo(){
+    @Override
+    public String getCode(){
         return codigo;
+    }
+    @Override
+    public String getUser(){
+        return user;
     }
     
     /***
@@ -68,7 +72,7 @@ public class Autor extends Usuario{
      * 
      * @param codigo 
      */
-    public void setCodigo(String codigo){
+    public void setCode(String codigo){
         this.codigo=codigo;
     }
     
@@ -99,7 +103,6 @@ public class Autor extends Usuario{
 
     @Override
     public void revisarArticulo() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
 
