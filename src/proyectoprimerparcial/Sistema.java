@@ -20,6 +20,7 @@ import java.util.Scanner;
  */
 public class Sistema {
 
+    private static Revision rev;
     static ArrayList<Usuario> listaAutores = new ArrayList<>();
     static ArrayList<Revisor> listaRevisores = new ArrayList<>();
     static ArrayList<Articulo> listaArticulos = new ArrayList<>();
@@ -47,6 +48,7 @@ public class Sistema {
         // TODO code application logic here
         cargarArticulos();
         cargarUsuarios();
+        rev = new Revision(null, null, null, null, null, null, null, null);
 //        System.out.println(listaUsuarios.get(5));
         mostrarMenu();
     }
@@ -145,7 +147,6 @@ public class Sistema {
     public static void iniciarSesion() {
         Scanner sc = new Scanner(System.in);
         imprimir();
-        Revision rev = new Revision(null, null, null, null, null, null, null, null);
         System.out.println("++++++++++++++++++++++++++++++++++++++++");
         System.out.println("BIENVENIDO AL SISTEMA");
         System.out.println("++++++++++++++++++++++++++++++++++++++++");
