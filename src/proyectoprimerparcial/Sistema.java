@@ -20,7 +20,6 @@ import java.util.Scanner;
  */
 public class Sistema {
 
-    private static Revision rev;
     static ArrayList<Usuario> listaAutores = new ArrayList<>();
     static ArrayList<Revisor> listaRevisores = new ArrayList<>();
     static ArrayList<Articulo> listaArticulos = new ArrayList<>();
@@ -46,36 +45,14 @@ public class Sistema {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        cargarAutores();
         cargarArticulos();
         cargarUsuarios();
-        rev = new Revision(null, null, null, null, null, null, null, null);
+//        rev = new Revision(null, null, null, null, null, null, null, null);
 //        System.out.println(listaUsuarios.get(5));
         mostrarMenu();
     }
 
-    /**
-     * *
-     *
-     * @param correoElectronico
-     */
-    public void validarAcceso(String correoElectronico) {
-
-    }
-
-    /**
-     * *
-     *
-     * @param user
-     * @param code
-     */
-    public static void iniciarSesion(String user, String code) {
-
-    }
-
-    /**
-     * *
-     *
-     */
     public static void mostrarMenu() {
         Scanner sc = new Scanner(System.in);
         System.out.println("1. Someter articulo\n2. Iniciar sesion\n3. Salir");
@@ -112,6 +89,7 @@ public class Sistema {
         for (String[] dato : datosUsuarios) {
             switch (dato[6]) {
                 case "R" -> {
+                    listaRevisores.add(new Revisor(dato[0], dato[1], dato[2], dato[3], dato[4], dato[5], Rol.valueOf(dato[6])));
                     listaUsuarios.add(new Revisor(dato[0], dato[1], dato[2], dato[3], dato[4], dato[5], Rol.valueOf(dato[6])));
 
                 }
@@ -167,8 +145,8 @@ public class Sistema {
                         if (art.endsWith(arti.getCodigo())) {
                             System.out.println(arti);
                         }
-                        rev.setCodigo(art);
-                        rev.setTitulo(arti.getTitulo());
+                    }
+                    for (Revision rev : listaRevisiones) {
                         System.out.println("Escriba un comentario");
                         String comentario = sc.nextLine();
                         if (rev.getComentario1() == null) {
@@ -180,16 +158,18 @@ public class Sistema {
                         String respuesta = sc.nextLine();
                         switch (respuesta) {
                             case "S" -> {
-                                if (rev.getEstado1() == null) {
+                                if (rev.getEstado1().equals(ACEPTADO)) {
                                     rev.setEstado1(ACEPTADO);
-                                } else if (rev.getEstado1() != null && rev.getEstado2() == null) {
+                                    iniciarSesion();
+                                } else if ((rev.getEstado1().equals(RECHAZADO)||rev.getEstado1().equals(ACEPTADO)) && rev.getEstado2().equals(ACEPTADO)) {
                                     rev.setEstado2(ACEPTADO);
+                                    iniciarSesion();
                                 }
                             }
                             case "N" -> {
-                                if (rev.getEstado1() == null) {
+                                if (rev.getEstado1().equals(ACEPTADO)) {
                                     rev.setEstado1(RECHAZADO);
-                                } else if (rev.getEstado1() != null && rev.getEstado2() == null) {
+                                } else if (rev.getEstado1().equals(RECHAZADO) && rev.getEstado2().equals(ACEPTADO)) {
                                     rev.setEstado2(RECHAZADO);
 
                                 }
@@ -197,24 +177,20 @@ public class Sistema {
                         }
                     }
                     iniciarSesion();
-
-//                if (!revisor.getUser().equals(user)) {
-//                    System.out.println("Datos ingresados incorrectos, pruebe de nuevo");
-////                    iniciarSesion();
-//           
                 }
-                if (usuario instanceof Editor editor) {
-                    sc.nextLine();
-                    System.out.println("Ingreso exitoso");
-                    sc.nextLine();
-                    System.out.println("Editor: Registro de decision final sobre articulo");
-                    System.out.println("Ingrese el codigo del articulo que desee aprobar");
-                    String art = sc.nextLine();
-                    for (Articulo arti : listaArticulos) {
-                        if (art.endsWith(arti.getCodigo())) {
-                            System.out.println(arti);
-                        }
+            }
+            if (usuario instanceof Editor editor) {
+                sc.nextLine();
+                System.out.println("Ingreso exitoso");
+                System.out.println("Editor: Registro de decision final sobre articulo");
+                System.out.println("Ingrese el codigo del articulo que desee aprobar");
+                String art = sc.nextLine();
+                for (Articulo arti : listaArticulos) {
+                    if (art.endsWith(arti.getCodigo())) {
+                        System.out.println(arti);
                     }
+                }
+                for (Revision rev : listaRevisiones) {
                     System.out.println("Escriba un comentario");
                     String comentarioEditor = sc.nextLine();
 
@@ -227,27 +203,27 @@ public class Sistema {
                     String respuesta = sc.nextLine();
                     switch (respuesta) {
                         case "S" -> {
-                            if (rev.getEstado3() == null) {
-
+                            if (rev.getEstado3().equals(ACEPTADO)) {
                                 rev.setEstado3(ACEPTADO);
+                                ManejoArchivos.EscribirArchivo("revisiones.txt", rev.toString());
+                                mostrarMenu();
 
                             }
                         }
                         case "N" -> {
-                            if (rev.getEstado3() == null) {
-
+                            if (rev.getEstado3().equals(ACEPTADO)) {
                                 rev.setEstado3(RECHAZADO);
+                                ManejoArchivos.EscribirArchivo("revisiones.txt", rev.toString());
+                                mostrarMenu();
 
                             }
                         }
-                    }
 
+                    }
                 }
             }
         }
 
-        listaRevisiones.add(rev);
-        ManejoArchivos.EscribirArchivo("revisiones.txt", rev.toString());
     }
 
     /**
@@ -307,6 +283,8 @@ public class Sistema {
         Articulo articulo = new Articulo(titulo, resumen, contenido, palabras, crearCodigo(), crearCodigo());
         articulo.setRevisor1(rev1);
         articulo.setRevisor2(rev2);
+        Revision revision = new Revision(articulo.getCodigo(), articulo.getTitulo());
+        listaRevisiones.add(revision);
         listaArticulos.add(articulo);
         ManejoArchivos.EscribirArchivo("articulos.txt", articulo.toString());
         sc.nextLine();

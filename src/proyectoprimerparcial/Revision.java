@@ -5,6 +5,7 @@
 package proyectoprimerparcial;
 
 import Enums.Estado;
+import static Enums.Estado.ACEPTADO;
 
 /**
  *
@@ -20,6 +21,17 @@ public class Revision {
     private Estado estado1;
     private Estado estado2;
     private Estado estado3;
+    
+    Revision(String codigo, String titulo){
+        this.codigo = codigo;
+        this.titulo = titulo;
+        this.comentario1 = null;
+        this.comentario2 = null;
+        this.comentario3 = null;
+        this.estado1 = ACEPTADO;
+        this.estado2 = ACEPTADO;
+        this.estado3 = ACEPTADO;
+    }
 
     Revision(String codigo, String titulo, String comentario1, String comentario2, String comentario3, Estado estado1, Estado estado2, Estado estado3) {
         this.codigo = codigo;
